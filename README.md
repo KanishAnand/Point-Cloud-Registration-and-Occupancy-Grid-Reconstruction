@@ -74,4 +74,26 @@ Use Open3d to visualize this.
 
 # Assignment 2.2 - Occupancy Grid Construction
 
-### Will be released on the 8th of September 2020.
+## Occupancy Grid Construction
+
+### What are Occupancy Grid Maps?
+Occupancy grid maps are discrete fine grain grid maps. These maps can be either 2-D or 3-D. Each cell in the occupancy grid map contains information on the physical objects present in the corresponding space. Since these maps shed light on what parts of the environment are occupied, and what is not, they are really useful for path planning and navigation.
+
+Examples of a simple 2-D grid map and a complicated 3-D map. Notice how the 3-D map is discretized and not an example of a point cloud:
+
+[https://lh4.googleusercontent.com/NxQOmkaI0iA1cWQo4ymdeprJyhMEKdyYlUyoNQa2AIxu5OY1YZ-LXoX-KeBoS-T-R7AO0zlBI0Byd_g24exM35H1vZj3mqv9-AUVfyr9J1D9CO1WSyiMXJ1Myu9cDLl3ihQqDQgF](https://lh4.googleusercontent.com/NxQOmkaI0iA1cWQo4ymdeprJyhMEKdyYlUyoNQa2AIxu5OY1YZ-LXoX-KeBoS-T-R7AO0zlBI0Byd_g24exM35H1vZj3mqv9-AUVfyr9J1D9CO1WSyiMXJ1Myu9cDLl3ihQqDQgF)
+
+[https://lh3.googleusercontent.com/j47FR-uFXfsP3LWv5XQRyVLM6yk7EQiaKMGPEJCESA3UasHryl9a8ECjSsGgnGwfGJDUSmpH9IQpH8xn31_Xw_oohQZr15NUSSab3xR9TdGf5xK8Uc3TYIv9lHmbajspFZJOWIbl](https://lh3.googleusercontent.com/j47FR-uFXfsP3LWv5XQRyVLM6yk7EQiaKMGPEJCESA3UasHryl9a8ECjSsGgnGwfGJDUSmpH9IQpH8xn31_Xw_oohQZr15NUSSab3xR9TdGf5xK8Uc3TYIv9lHmbajspFZJOWIbl)
+
+Occupancy grid maps are probabilistic in nature due to noisy measurements. Each cell can have three states: Occupied, unoccupied, and unknown. For the purpose of this assignment, you can ignore the unknown and work in a binary setting where 1 is occupied and 0 is unoccupied
+
+## Task 2 -  Occupancy Map Construction
+
+1. **Create an occupancy grid map for each LiDAR scan. For the purpose of this assignment, you do not need to apply bayesian update rules and each individual scan can be assumed as a prior. Save each scan as a binary png**
+2. **Using odometry data, concat multiple scans and create a occupancy grid of 5, 10 and 15 scans**
+
+**Tip: You can mark a cell as occupied based on a threshold of how many different z values are there for a particular (x,y) cell.**
+
+Results should look something like this:
+
+![README/figure38.png](README/figure38.png)
