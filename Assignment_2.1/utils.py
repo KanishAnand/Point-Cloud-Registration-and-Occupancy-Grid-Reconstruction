@@ -34,10 +34,11 @@ if __name__ == "__main__":
 
 	for file in os.listdir('dataset/01'):
 		arr = readPointCloud('dataset/01/' + file)
+		
 		pcd_cur = o3d.geometry.PointCloud()
 		pcd_cur.points = o3d.utility.Vector3dVector(arr[:,:3])	
 
-		lidar2world = pcd_cur.get_rotation_matrix_from_zyx((np.pi/2,0,np.pi/2))
+		lidar2world = pcd_cur.get_rotation_matrix_from_zyx((-np.pi/2,0,np.pi/2))
 		pcd_cur.rotate(lidar2world, center = (0, 0, 0))
 
 		fileno = file[:-4]
@@ -53,12 +54,3 @@ if __name__ == "__main__":
 
 	o3d.visualization.draw_geometries([pcd])
 
-
-# arr = readData('01.txt')
-# p = arr[0].reshape(3,4)
-# print(p)
-
-# arr = readPointCloud('01/000000.bin')
-# pcd = o3d.geometry.PointCloud()
-# pcd.points = o3d.utility.Vector3dVector(arr[:,:3])
-# o3d.visualization.draw_geometries([pcd])
