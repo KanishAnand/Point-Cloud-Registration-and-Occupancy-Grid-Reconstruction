@@ -38,7 +38,7 @@ if __name__ == "__main__":
 		pcd_cur = o3d.geometry.PointCloud()
 		pcd_cur.points = o3d.utility.Vector3dVector(arr[:,:3])	
 
-		lidar2world = pcd_cur.get_rotation_matrix_from_zyx((np.pi/2,0,np.pi/2))
+		lidar2world = pcd_cur.get_rotation_matrix_from_zyx((np.pi/2,-np.pi/2,0))
 		pcd_cur.rotate(lidar2world, pcd_cur.get_center())
 
 		fileno = file[:-4]
