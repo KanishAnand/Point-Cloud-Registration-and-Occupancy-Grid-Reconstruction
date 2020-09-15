@@ -28,6 +28,23 @@ def readPointCloud(filename):
 	return pcl 
 
 
+def rotation_from_euler_zyx(alpha, beta, gamma):
+    R = np.zeros((3, 3), dtype='double')
+    
+    R[0, 0] = np.cos(alpha) * np.cos(beta)
+    R[0, 1] = np.cos(alpha) * np.sin(beta) * np.sin(gamma) - np.sin(alpha) * np.cos(gamma)
+    R[0, 2] = np.cos(alpha) * np.sin(beta) * np.cos(gamma) + np.sin(alpha) * np.sin(gamma)
+    
+    R[1, 0] = np.sin(alpha) * np.cos(beta)
+    R[1, 1] = np.sin(alpha) * np.sin(beta) * np.sin(gamma) + np.cos(alpha) * np.cos(gamma)
+    R[1, 2] = np.sin(alpha) * np.sin(beta) * np.cos(gamma) - np.cos(alpha) * np.sin(gamma)
+    
+    R[2, 0] = -np.sin(beta)
+    R[2, 1] =  np.cos(beta) * np.sin(gamma)
+    R[2, 2] =  np.cos(beta) * np.cos(gamma)
+    
+    return R
+
 if __name__ == "__main__":
 	pcd = o3d.geometry.PointCloud()
 	transformation_matrix = readData('dataset/01.txt')
@@ -38,8 +55,10 @@ if __name__ == "__main__":
 		pcd_cur = o3d.geometry.PointCloud()
 		pcd_cur.points = o3d.utility.Vector3dVector(arr[:,:3])	
 
-		lidar2world = pcd_cur.get_rotation_matrix_from_zyx((np.pi/2,-np.pi/2,0))
-		pcd_cur.rotate(lidar2world, pcd_cur.get_center())
+		#  applying rotation matrix to convert lidar to world
+		lidar2world = rotation_from_euler_zyx(np.pi/2,-np.pi/2,0)
+		mat = np.matmul(pcd_cur.points, lidar2world.T)
+		pcd_cur.points = o3d.utility.Vector3dVector(mat)	
 
 		fileno = file[:-4]
 		fileno = int(fileno)
