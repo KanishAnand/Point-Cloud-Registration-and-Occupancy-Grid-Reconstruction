@@ -49,9 +49,8 @@ if __name__ == "__main__":
 
 		pcd_cur.transform(transform_arr)
 
-		pcd_cur = pcd_cur.voxel_down_sample(voxel_size = 2)
+		pcd_cur = pcd_cur.voxel_down_sample(voxel_size = 1)
 		pcd += pcd_cur
-		# break
 
 	o3d.visualization.draw_geometries([pcd])
 
