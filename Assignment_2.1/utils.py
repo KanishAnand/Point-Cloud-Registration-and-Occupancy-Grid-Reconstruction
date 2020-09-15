@@ -47,7 +47,12 @@ if __name__ == "__main__":
 		transform_arr = transformation_matrix[fileno].reshape(3,4)
 		transform_arr =  np.vstack((transform_arr, [0,0,0,1]))
 
-		pcd_cur.transform(transform_arr)
+		# applying transformation without use of transform function
+		xyz = np.asarray(pcd_cur.points)
+		points = np.c_[xyz, np.ones(xyz.shape[0])]
+		P2 = np.matmul(points, transform_arr.T)
+
+		pcd_cur.points = o3d.utility.Vector3dVector(P2[:,:3])	
 
 		pcd_cur = pcd_cur.voxel_down_sample(voxel_size = 1)
 		pcd += pcd_cur
