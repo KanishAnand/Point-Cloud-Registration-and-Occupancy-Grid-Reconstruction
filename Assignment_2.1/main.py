@@ -8,6 +8,7 @@ import shutil
 
 DATASET_PATH = '../dataset/01/'
 DATASET_TR_PATH = '../dataset/01.txt'
+RESULT_PATH = './results/'
 
 if __name__ == "__main__":
     pcd = o3d.geometry.PointCloud()
@@ -26,4 +27,10 @@ if __name__ == "__main__":
 
 
     o3d.visualization.draw_geometries([pcd])
+
+    if not os.path.exists(RESULT_PATH):
+        os.makedirs(RESULT_PATH)
+
+    o3d.io.write_point_cloud(os.path.join(RESULT_PATH,"part-1.pcd"), pcd)
+
 
