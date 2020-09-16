@@ -7,7 +7,7 @@ import shutil
 
 import utils
 
-THRESH = 0.0001
+THRESH = 0.00009
 DATASET_PATH = '../dataset/01/'
 DATASET_TR_PATH = '../dataset/01.txt'
 RESULT_PATH_1 = './results/part-2.1/'
@@ -70,7 +70,7 @@ if __name__ == "__main__":
 
     pcd = o3d.geometry.PointCloud()
 
-    for ind in range(0,5):
+    for ind in range(15):
         file_name = '%06d.bin'%(ind) 
         arr = utils.readPointCloud(DATASET_PATH + file_name)[:, :3]
         arr = utils.lidar_to_world(arr)
