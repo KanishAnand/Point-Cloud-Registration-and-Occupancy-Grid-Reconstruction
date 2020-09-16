@@ -1,1 +1,3 @@
-```python3 main.py```
+- Install requirements.txt given in main folder.
+- Make sure `dataset` is present in main folder containing `01.txt` and folder name `01` containing all binary files.
+- Run ```python3 main.py```
