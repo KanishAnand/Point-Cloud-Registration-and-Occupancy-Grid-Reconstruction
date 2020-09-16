@@ -1,15 +1,17 @@
 import open3d as o3d
 import numpy as np
-from PIL import Image
 import cv2
 
 import os
+import shutil
 
 import utils
 
-THRESH = 0.00009
+THRESH = 0.0001
 DATASET_PATH = '../dataset/01/'
 DATASET_TR_PATH = '../dataset/01.txt'
+RESULT_PATH_1 = './results/part-2.1/'
+RESULT_PATH_2 = './results/part-2.2/'
 
 
 def pcd_to_occupancy(pcd: np.ndarray):
@@ -24,8 +26,6 @@ def pcd_to_occupancy(pcd: np.ndarray):
     z_min = pcd[:, 2].min()
     z_max = pcd[:, 2].max()
 
-    print(x_min)
-    print(x_max)
 
     occupancy = np.zeros((int(x_max - x_min + 1), int(z_max - z_min + 1)), dtype=np.float64)
 
@@ -39,11 +39,35 @@ def pcd_to_occupancy(pcd: np.ndarray):
     return occupancy > THRESH
 
 def numpy_to_image(arr: np.ndarray, path: str):
-    cv2.imwrite('test.png',arr)
+    cv2.imwrite(f'{path}.png',(arr * 255).astype(np.uint8))
 
 
 if __name__ == "__main__":
     transf = utils.readData(DATASET_TR_PATH)
+    
+    if os.path.exists(RESULT_PATH_1):
+        shutil.rmtree(RESULT_PATH_1)
+    os.makedirs(RESULT_PATH_1)
+
+    for filename in os.listdir(DATASET_PATH):
+        arr = utils.readPointCloud(DATASET_PATH + filename)[:, :3]
+        arr = utils.lidar_to_world(arr)
+        ind = int(filename[:-4])
+        arr = utils.make_homogenous_and_transform(arr, transf[ind].reshape(3, 4))
+
+        pcd = o3d.geometry.PointCloud()
+        pcd.points = o3d.utility.Vector3dVector(arr)
+        arr = np.asarray(pcd.points)
+
+        occ = pcd_to_occupancy(arr)
+        numpy_to_image(occ, os.path.join(RESULT_PATH_1, filename[:-4]))
+    
+    
+    # PART-2
+    if os.path.exists(RESULT_PATH_2):
+        shutil.rmtree(RESULT_PATH_2)
+    os.makedirs(RESULT_PATH_2)
+
     pcd = o3d.geometry.PointCloud()
 
     for ind in range(0,5):
@@ -54,13 +78,12 @@ if __name__ == "__main__":
 
         pcd_cur = o3d.geometry.PointCloud()
         pcd_cur.points = o3d.utility.Vector3dVector(arr)	
-        pcd += pcd_cur
+        pcd += pcd_cur # takes care of ensuring uniqueness
 
 
     final_arr = np.asarray(pcd.points)
     occ = pcd_to_occupancy(final_arr)
-    numpy_to_image((occ * 255).astype(np.uint8), 'test')
-    # o3d.visualization.draw_geometries([pcd])
+    numpy_to_image(occ, os.path.join(RESULT_PATH_2, 'part-2.2'))
 
 
     
