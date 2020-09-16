@@ -1,2 +1,4 @@
-Assignment_2.1/dataset
+dataset/
 env/
+**/__pycache__/**
+**/.vscode/**

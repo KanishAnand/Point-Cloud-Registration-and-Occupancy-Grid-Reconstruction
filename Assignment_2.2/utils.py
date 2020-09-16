@@ -67,36 +67,3 @@ def make_homogenous_and_transform(arr: np.ndarray, T: np.ndarray):
 	transformed_arr = T_4 @ arr_4.T
 	return transformed_arr.T[:, :-1]
 
-if __name__ == "__main__":
-	pcd = o3d.geometry.PointCloud()
-	transformation_matrix = readData('../dataset/01.txt')
-
-	for file in os.listdir('../dataset/01'):
-		arr = readPointCloud('../dataset/01/' + file)
-		
-		pcd_cur = o3d.geometry.PointCloud()
-		pcd_cur.points = o3d.utility.Vector3dVector(arr[:,:3])	
-
-		#  applying rotation matrix to convert lidar to world
-		lidar2world = rotation_from_euler_zyx(np.pi/2,-np.pi/2,0)
-		mat = np.matmul(pcd_cur.points, lidar2world.T)
-		pcd_cur.points = o3d.utility.Vector3dVector(mat)	
-
-		fileno = file[:-4]
-		fileno = int(fileno)
-
-		transform_arr = transformation_matrix[fileno].reshape(3,4)
-		transform_arr =  np.vstack((transform_arr, [0,0,0,1]))
-
-		# applying transformation without use of transform function
-		xyz = np.asarray(pcd_cur.points)
-		points = np.c_[xyz, np.ones(xyz.shape[0])]
-		P2 = np.matmul(points, transform_arr.T)
-
-		pcd_cur.points = o3d.utility.Vector3dVector(P2[:,:3])	
-
-		pcd_cur = pcd_cur.voxel_down_sample(voxel_size = 1)
-		pcd += pcd_cur
-
-	o3d.visualization.draw_geometries([pcd])
-
