@@ -1,3 +1,4 @@
-- Install requirements.txt given in main folder.
+- Install `requirements.txt` given in main folder.
 - Make sure `dataset` is present in main folder containing `01.txt` and folder name `01` containing all binary files.
-- Run ```python3 main.py```
+- Just run ```python3 main.py```
+- Output point cloud will be saved in `results` folder which will be made automatically in the current working directory.
