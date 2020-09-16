@@ -12,6 +12,7 @@ DATASET_PATH = '../dataset/01/'
 DATASET_TR_PATH = '../dataset/01.txt'
 RESULT_PATH_1 = './results/part-2.1/'
 RESULT_PATH_2 = './results/part-2.2/'
+COUNTS_2 = (5, 10, 15)
 
 
 def pcd_to_occupancy(pcd: np.ndarray):
@@ -68,22 +69,23 @@ if __name__ == "__main__":
         shutil.rmtree(RESULT_PATH_2)
     os.makedirs(RESULT_PATH_2)
 
-    pcd = o3d.geometry.PointCloud()
+    for count in COUNTS_2:
+        pcd = o3d.geometry.PointCloud()
 
-    for ind in range(15):
-        file_name = '%06d.bin'%(ind) 
-        arr = utils.readPointCloud(DATASET_PATH + file_name)[:, :3]
-        arr = utils.lidar_to_world(arr)
-        arr = utils.make_homogenous_and_transform(arr, transf[ind].reshape(3, 4))
+        for ind in range(count):
+            file_name = '%06d.bin'%(ind) 
+            arr = utils.readPointCloud(DATASET_PATH + file_name)[:, :3]
+            arr = utils.lidar_to_world(arr)
+            arr = utils.make_homogenous_and_transform(arr, transf[ind].reshape(3, 4))
 
-        pcd_cur = o3d.geometry.PointCloud()
-        pcd_cur.points = o3d.utility.Vector3dVector(arr)	
-        pcd += pcd_cur # takes care of ensuring uniqueness
+            pcd_cur = o3d.geometry.PointCloud()
+            pcd_cur.points = o3d.utility.Vector3dVector(arr)	
+            pcd += pcd_cur # takes care of ensuring uniqueness
 
 
-    final_arr = np.asarray(pcd.points)
-    occ = pcd_to_occupancy(final_arr)
-    numpy_to_image(occ, os.path.join(RESULT_PATH_2, 'part-2.2'))
+        final_arr = np.asarray(pcd.points)
+        occ = pcd_to_occupancy(final_arr)
+        numpy_to_image(occ, os.path.join(RESULT_PATH_2, f'from-{count}'))
 
 
     
