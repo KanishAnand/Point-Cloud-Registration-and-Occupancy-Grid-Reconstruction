@@ -7,7 +7,7 @@ import shutil
 
 import utils
 
-THRESH = 0.00009
+THRESH = 0.00035
 DATASET_PATH = '../dataset/01/'
 DATASET_TR_PATH = '../dataset/01.txt'
 RESULT_PATH_1 = './results/part-2.1/'
@@ -83,6 +83,7 @@ if __name__ == "__main__":
             pcd += pcd_cur # takes care of ensuring uniqueness
 
 
+        pcd = pcd_cur.voxel_down_sample(voxel_size = 1)
         final_arr = np.asarray(pcd.points)
         occ = pcd_to_occupancy(final_arr)
         numpy_to_image(occ, os.path.join(RESULT_PATH_2, f'from-{count}'))
