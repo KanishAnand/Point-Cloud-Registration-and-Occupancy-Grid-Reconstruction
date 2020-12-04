@@ -1,21 +1,4 @@
-# Assignment 2
-
-# Instructions
-
-- This assignment is designed to get you familiar with handling Point Cloud Registration and Occupancy Grid construction
-- This is a **two part assignment**, Assignment 2.1 and Assignment 2.2
-    - **Assignment 2.1 will be released on the 5th of September 2020**
-    - **Assignment 2.2 will be released on the 8th of September 2020**
-- The **deadline** for both parts of the Assignment are **16th of September 2020**.
-- Code must be written in Python only
-- Ensure your code is modular since you will be reusing it for future assignments
-- Submit your code files and report as a zipped file on Moodle, along with regular commits on GitHub classrooms
-- The report should include all outputs and results and a description of your approach. It should also briefly describe what each member worked on
-- The scoring will primarily be based on the completeness of your working code, completeness of your report, and the quality of your results
-- Refer to the late day policy and plagiarism policy in the course information document
-- Start early! This assignment may take fairly long to complete.
-
-# Assignment 2.1 - Point Cloud Registration
+# Point Cloud Registration
 
 ## Point Clouds
 
@@ -72,7 +55,7 @@ You can see how the LiDAR was mounted on the car. All the points are with respec
 
 Use Open3d to visualize this.
 
-# Assignment 2.2 - Occupancy Grid Construction
+# Occupancy Grid Construction
 
 ## Occupancy Grid Construction
 
